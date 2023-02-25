@@ -28,7 +28,7 @@ class Synther {
   print() {
     let modFreq = map(mouseY, 0, height, 20, 0);
     this.modulator.freq(modFreq);
-  
+
     let modAmp = map(mouseX, 0, width, 0, 1);
     this.modulator.amp(modAmp, 0.01);
     
