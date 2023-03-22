@@ -1,0 +1,13 @@
+#permission {
+    position: fixed;
+    top: 50%;
+    /* left: %; */
+    /* transform: translate(-50%, -50%); */
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    display: block;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    text-align: center;
+}

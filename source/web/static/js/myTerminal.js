@@ -4,7 +4,7 @@ class MyTerminal {
 
     constructor() {
       this.content = 'hi bitch ';
-      this.textSize = 40;
+      this.textSize = 20;
       this.x = 0;
       this.y = 0;
       this.gap = 40;
@@ -20,9 +20,9 @@ class MyTerminal {
 
     print() {
       translate(this.margin, this.margin);
+      noStroke();
       if (this.withBackground) {
         fill(255, 0, 0);
-        noStroke();
         let cWidth = textWidth(this.content);
         let cHeigth = textAscent();
         rect(this.x, this.y - cHeigth / 2, cWidth, cHeigth);

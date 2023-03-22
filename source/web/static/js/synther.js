@@ -23,36 +23,29 @@ class Synther {
     this.carrier.amp(this.modulator.scale(-1, 1, 1, -1));
 
     this.fft = new p5.FFT();
+    this.listenAcc();
   }
 
   print() {
-    let modFreq = map(mouseY, 0, height, 20, 0);
+    let modFreq = map(this.beta, 0, 180, 20, 0);
     this.modulator.freq(modFreq);
 
-    let modAmp = map(mouseX, 0, width, 0, 1);
+    let modAmp = map(this.alpha, 0, 360, 0, 1);
     this.modulator.amp(modAmp, 0.01);
     
-    this.drawWaveform(this.fft.waveform())
     this.drawText(modFreq, modAmp)
   }
 
-  drawWaveform(waveform) {
-    stroke(100);
-    strokeWeight(4);
-    beginShape();
-    for (let i = 0; i < waveform.length; i++) {
-      let x = map(i, 0, waveform.length, 0, width);
-      let y = map(waveform[i], -1, 1, -height / 2, height / 2);
-      vertex(x, y + height / 2);
-    }
-    endShape();
-  }
     
   drawText(modFreq, modAmp) {
     strokeWeight(1);
     fill(100);
-    text('Modulator Frequency: ' + modFreq.toFixed(3) + ' Hz', 50, 20);
-    text('Modulator Amplitude: ' + modAmp.toFixed(3), 20, 40);
+    let _yPossition = 40;
+    text('Modulator Frequency: ' + modFreq.toFixed(3) + ' Hz', 50, _yPossition);
+    text('Modulator Amplitude: ' + modAmp.toFixed(3), 50, _yPossition += 40);
+    text('alpha: ' + this.alpha, 50, _yPossition += 40);
+    text('beta: ' + this.beta, 50, _yPossition += 40);
+    text('gamma: ' + this.gamma, 50, _yPossition += 40);
   }
 
   mousePressed() {
@@ -66,6 +59,14 @@ class Synther {
       this.carrier.start()
       this.isPaying = !this.isPaying;
     }
+  }
+
+  listenAcc() {
+    window.addEventListener('deviceorientation', ev => {
+      this.alpha = Math.round(ev.alpha); // Z [0, 360]
+      this.beta = Math.round(ev.beta);   // X [-180, 180]
+      this.gamma = Math.round(ev.gamma); // Y [-90, 90]
+    });
   }
 
 }
