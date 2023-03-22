@@ -24,6 +24,7 @@ def home():
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8080))
-    socketio.run(app, debug=True, port=port)
+    port = int(os.environ.get('PORT', 80))
+    socketio.run(app, debug=True, port=port, host='0.0.0.0', keyfile='certs/key.pem', certfile='certs/cert.pem')
     # app.run(debug=True, host='0.0.0.0', port=port)
+    # app.run(debug=True, host='0.0.0.0', port=port, ssl_context=("cert.pem", "key.pem"))
