@@ -3,12 +3,16 @@ let logger;
 let sound;
 let socket;
 var isPermissionGranted = false;
+let compass
+let isPlaying = false;
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
   bg_color = color(200)
+
+  compass = new Compass()
   logger = new MyTerminal()
-  sound = new Synther()
+  sound = new Synther(compass)
   isPermissionGranted = (window.DeviceMotionEvent ? true : false);
   
   // socket
@@ -24,11 +28,20 @@ function draw() {
   background(bg_color);
   logger.print()
   sound.print()
+  compass.print()
 }
 
 function mousePressed() {
-  sound.mousePressed()
+  if(isPlaying) {
+    sound.toStop();
+    compass.toStop();
+  }
+  else {
+    sound.toPlay();
+    compass.toPlay();
+  }
 
+  isPlaying = !isPlaying;
 }
 
 function reqPerm() {
