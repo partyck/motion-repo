@@ -14,6 +14,9 @@ function setup() {
   logger = new MyTerminal()
   sound = new Synther(compass)
   isPermissionGranted = (window.DeviceMotionEvent ? true : false);
+  if (isPermissionGranted) {
+    select('#permission').hide();
+  }
   
   // socket
   socket = io()
