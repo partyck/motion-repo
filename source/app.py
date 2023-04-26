@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 import os
 
 app = Flask(__name__,
@@ -11,19 +11,15 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
 # SOCKETS
-@socketio.on('message')
-def handle_message(data):
-    print('received message: ' + data)
-
 @socketio.on('toggle_start')
 def event_toggle_start(data):
     print('toggle_start: ' + str(data))
-    emit('toggle_start', data)
+    socketio.emit('toggle_start', data)
 
 @socketio.on('motion')
 def event_motion(data):
     print('motion: ' + str(data))
-    emit('motion', data)
+    socketio.emit('move', data)
 
 # ROUTES
 @app.route('/')

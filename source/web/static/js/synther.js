@@ -2,7 +2,6 @@ class Synther {
   
   constructor(compass) {
     this.compass = compass;
-    this._listenAcc();
 
     // Create an oscillator and start it
     this.oscillator = new p5.Oscillator();
@@ -53,13 +52,5 @@ class Synther {
     text('gamma: ' + this.gamma, 50, _yPossition += 40);
     text('contador: ' + this.compass.iteration, 50, _yPossition += 40);
     text('iteration: ' + this.compass.contador, 50, _yPossition += 40);
-  }
-
-  _listenAcc() {
-    window.addEventListener('deviceorientation', ev => {
-      this.alpha = Math.round(ev.alpha); // Z [0, 360]
-      this.beta = Math.round(ev.beta);   // X [-180, 180]
-      this.gamma = Math.round(ev.gamma); // Y [-90, 90]
-    });
   }
 }

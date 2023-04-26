@@ -11,21 +11,13 @@ let gamma = 0;
 
 function setup() {
   createCanvas(displayWidth, displayHeight);
-  console.log('PHONE');
   bg_color = color(200)
 
   isPermissionGranted = (window.DeviceMotionEvent ? true : false);
-  if (isPermissionGranted) {
-    select('#permission').hide();
-  }
   
   // socket
   socket = io()
-  socket.on('connect', function() {
-      socket.emit('my_event', {data: 'I\'m connected! PHONE'});
-  });
-  
-  background(bg_color);
+  listenSockets()
 }
 
 function draw() {
@@ -80,4 +72,10 @@ function reqPerm() {
   } else {
     alert( "No puedo acceder a los sensores de tu dispositivo :(" );
   }
+}
+
+function listenSockets() {
+  socket.on('connect', function() {
+    console.log('Socket connected!');
+  });
 }
