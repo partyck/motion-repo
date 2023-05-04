@@ -22,8 +22,8 @@ function setup() {
 
 function draw() {
   background(bg_color);
+  listenMotion();
   if (isPermissionGranted && isPlaying) {
-    listenMotion();
     sendMotion();
   }
 }

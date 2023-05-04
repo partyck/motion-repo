@@ -1,7 +1,7 @@
 class Compass {
   
   constructor() {
-    this.limit = 1000;
+    this.limit = pow(2, 8);
     this.contador = 0;
     this.iteration = 0;
     this.isPlaying = false;
@@ -13,6 +13,7 @@ class Compass {
     }
 
     if (this.contador === this.limit) {
+      console.log('iteration : '+this.iteration);
       this.iteration++;
       this.contador = 0;
     }
