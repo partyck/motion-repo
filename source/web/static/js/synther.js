@@ -28,9 +28,9 @@ class Synther {
     let amp = 0;
 
     if (this.isPaying) {
-      // Set the frequency of the oscillator based on the mouse position
       freq = map(this.alpha, 0, 360, 100, 1000);
       amp = map(this.beta, -180, 180, 0, 0.5);
+
       this.oscillator.freq(freq);
       this.oscillator.amp(amp);
     }
@@ -52,7 +52,11 @@ class Synther {
     this.alpha = newAnges.alpha;
     this.beta = newAnges.beta;
     this.gamma = newAnges.gamma;
-  }  
+  }
+
+  setDistortion(value) { // [0, 1]
+    this.distortion.set(value);
+  }
 
   _drawText(freq, amp) {
     strokeWeight(1);
