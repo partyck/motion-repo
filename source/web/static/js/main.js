@@ -3,12 +3,14 @@ let synth;
 let socket;
 let compass;
 let drums;
+let pose;
 let isPlaying = false;
 
 
 function preload() {
   compass = new Compass()
   drums = new Drums();
+  pose = new PoseCapturer();
 }
 
 function setup() {
@@ -25,6 +27,7 @@ function draw() {
   synth.print();
   compass.print();
   drums.print();
+  pose.print();
 }
 
 function tooglePlay() {

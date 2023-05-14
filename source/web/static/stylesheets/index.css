@@ -9,4 +9,5 @@ html,body {
 
 canvas {
     vertical-align: top;
+    display: block;
 }
