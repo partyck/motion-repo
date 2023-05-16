@@ -1,7 +1,7 @@
 class Compass {
   
   constructor() {
-    this.limit = pow(2, 8);
+    this.limit = pow(2, 10);
     this.contador = 0;
     this.iteration = 0;
     this.isPlaying = false;

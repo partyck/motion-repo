@@ -8,37 +8,37 @@ let isPlaying = false;
 
 
 function preload() {
-  compass = new Compass()
-  drums = new Drums();
-  pose = new PoseCapturer();
+    compass = new Compass()
+    drums = new Drums();
+    pose = new PoseCapturer();
 }
 
 function setup() {
-  createCanvas(displayWidth, displayHeight);
-  bg_color = color(200);
+    createCanvas(displayWidth, displayHeight);
+    bg_color = color(200);
 
-  compass = new Compass();
-  synth = new Synther(compass);
-  mySocket = new MySocket();
+    compass = new Compass();
+    synth = new Synther(compass);
+    mySocket = new MySocket();
 }
 
 function draw() {
-  background(bg_color);
-  synth.print();
-  compass.print();
-  drums.print();
-  pose.print();
+    background(bg_color);
+    synth.print();
+    compass.print();
+    drums.print();
+    pose.print();
 }
 
 function tooglePlay() {
-  if(isPlaying) {
-    synth.toStop();
-    compass.toStop();
-  }
-  else {
-    synth.toPlay();
-    compass.toPlay();
-  }
+    if (isPlaying) {
+        synth.toStop();
+        compass.toStop();
+    }
+    else {
+        synth.toPlay();
+        compass.toPlay();
+    }
 
-  isPlaying = !isPlaying;
+    isPlaying = !isPlaying;
 }

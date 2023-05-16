@@ -26,11 +26,14 @@ class Synther {
   print() {
     let freq = 0;
     let amp = 0;
+    let dist = 0;
 
     if (this.isPaying) {
       freq = map(this.alpha, 0, 360, 100, 1000);
       amp = map(this.beta, -180, 180, 0, 0.5);
+      dist = map(compass.contador, 0, compass.limit, 0, 0.1 + (compass.iteration * 0.1))
 
+      this.distortion.set(dist);
       this.oscillator.freq(freq);
       this.oscillator.amp(amp);
     }
@@ -52,10 +55,6 @@ class Synther {
     this.alpha = newAnges.alpha;
     this.beta = newAnges.beta;
     this.gamma = newAnges.gamma;
-  }
-
-  setDistortion(value) { // [0, 1]
-    this.distortion.set(value);
   }
 
   _drawText(freq, amp) {

@@ -10,14 +10,16 @@ class PoseCapturer {
         });
         this.poseNet.on('pose', _gotPoses);
         this.leftWrist = {'x' : 0, 'y' : 0};
-        this.wd =this.video.width;
     }
 
     print() {
         push();
         scale(-1, 1);
-        image(this.video, -1 * width, 0, width, height);
+        // image(this.video, -1 * width, 0, width, height);
         pop();
+
+        fill(0, 0, 255);
+        ellipse(this.leftWrist.x, this.leftWrist.y, 50);
     }
 
     _getContinuityCamera() {
@@ -26,14 +28,14 @@ class PoseCapturer {
             .then((devices) => {
                 console.log('input devices :');
                 devices.forEach((device) => {
-                    console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+                    console.log(`${device.kind}: ${device.label}`);
                     if (device.kind.includes('videoinput') && device.label.includes('iPhone')) {
                         return {
                             audio: false,
                             video: {
-                              deviceId: device.deviceId
+                                deviceId: device.deviceId
                             }
-                          };
+                        };
                     }
                 });
                 return VIDEO;
@@ -43,13 +45,15 @@ class PoseCapturer {
             });
     }
 
-    updateLeftWrist(leftWrist) {
-        console.log('leftWrist');
-        this.leftWrist.x = map(leftWrist.x, 0, this.video.width, width, 0);
-        this.leftWrist.y = map(leftWrist.y, 0, this.video.width, 0, width);
+    updateLeftWrist(x, y) {
+        let circleX = map(x, 0, 1, 0, width);
+        let circleY = map(y, 0, 1, 0, height);
+        
+        this.leftWrist.x = circleX;
+        this.leftWrist.y = circleY;
         
         fill(0, 0, 255);
-        ellipse(this.leftWrist.x, this.leftWrist.y, 50);
+        ellipse(circleX, circleY, 50);
     }
 }
 
@@ -58,9 +62,14 @@ function _gotPoses(poses) {
     if (poses.length < 1) {
         return;
     }
-    
+
     let leftWrist = poses[0].pose.leftWrist;
     if (leftWrist.confidence > PRESICION) {
-        pose.updateLeftWrist(leftWrist);
+        console.log('leftWrist');
+
+        let x = map(leftWrist.x, 0, pose.video.width, 1, 0)
+        let y = map(leftWrist.y, 0, pose.video.height, 0, 1)
+
+        pose.updateLeftWrist(x, y);
     }
 }
