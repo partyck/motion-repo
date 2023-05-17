@@ -14,8 +14,8 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(displayWidth, displayHeight);
-    bg_color = color(200);
+    createCanvas(windowWidth, windowHeight);
+    bg_color = color(0);
 
     compass = new Compass();
     synth = new Synther(compass);
@@ -24,10 +24,10 @@ function setup() {
 
 function draw() {
     background(bg_color);
-    synth.print();
-    compass.print();
-    drums.print();
-    pose.print();
+    synth.show();
+    compass.show();
+    drums.show();
+    pose.show();
 }
 
 function tooglePlay() {

@@ -1,25 +1,34 @@
-let PRESICION = 0.7;
-
 class PoseCapturer {
 
     constructor() {
-        this.video = createCapture(this._getContinuityCamera());
+        this.particles = [
+            new BodyParticle(),
+            new BodyParticle(),
+            new BodyParticle(),
+            new BodyParticle(),
+            new BodyParticle()];
+        
+        this.video = createCapture(VIDEO);
         this.video.hide();
         this.poseNet = ml5.poseNet(this.video, () => {
             console.log('model ready');
         });
         this.poseNet.on('pose', _gotPoses);
-        this.leftWrist = {'x' : 0, 'y' : 0};
+        console.log(`video width : ${this.video.width}; height : ${this.video.height}`); //
     }
 
-    print() {
+    show() {
         push();
         scale(-1, 1);
-        // image(this.video, -1 * width, 0, width, height);
+        let xS =  -1 * width;
+        let xE = width;
+        // image(this.video, xS, 0, xE, height);
+        // image(this.video, xS, 0, this.video.width, this.video.height);
         pop();
 
-        fill(0, 0, 255);
-        ellipse(this.leftWrist.x, this.leftWrist.y, 50);
+        this.particles.forEach((particle) => {
+            particle.show();
+        });
     }
 
     _getContinuityCamera() {
@@ -44,17 +53,6 @@ class PoseCapturer {
                 console.error(`${err.name}: ${err.message}`);
             });
     }
-
-    updateLeftWrist(x, y) {
-        let circleX = map(x, 0, 1, 0, width);
-        let circleY = map(y, 0, 1, 0, height);
-        
-        this.leftWrist.x = circleX;
-        this.leftWrist.y = circleY;
-        
-        fill(0, 0, 255);
-        ellipse(circleX, circleY, 50);
-    }
 }
 
 
@@ -62,14 +60,11 @@ function _gotPoses(poses) {
     if (poses.length < 1) {
         return;
     }
-
-    let leftWrist = poses[0].pose.leftWrist;
-    if (leftWrist.confidence > PRESICION) {
-        console.log('leftWrist');
-
-        let x = map(leftWrist.x, 0, pose.video.width, 1, 0)
-        let y = map(leftWrist.y, 0, pose.video.height, 0, 1)
-
-        pose.updateLeftWrist(x, y);
-    }
+    
+    // console.log(poses[0].pose);
+    pose.particles[0].update(poses[0].pose.nose)
+    pose.particles[1].update(poses[0].pose.leftWrist)
+    pose.particles[2].update(poses[0].pose.rightWrist)
+    pose.particles[3].update(poses[0].pose.leftAnkle)
+    pose.particles[4].update(poses[0].pose.rightAnkle)
 }

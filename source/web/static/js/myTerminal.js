@@ -18,7 +18,7 @@ class MyTerminal {
       textAlign(LEFT, CENTER);
     }
 
-    print() {
+    show() {
       translate(this.margin, this.margin);
       noStroke();
       if (this.withBackground) {

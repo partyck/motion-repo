@@ -23,7 +23,7 @@ class Synther {
     this.gamma = 0;
   }
 
-  print() {
+  show() {
     let freq = 0;
     let amp = 0;
     let dist = 0;
@@ -59,7 +59,7 @@ class Synther {
 
   _drawText(freq, amp) {
     strokeWeight(1);
-    fill(100);
+    fill(200);
     let _yPossition = 40;
     text('freq      : ' + freq.toFixed(3) + ' Hz', 50, _yPossition);
     text('amp       : ' + amp.toFixed(3), 50, _yPossition += 40);

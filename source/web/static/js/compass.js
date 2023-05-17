@@ -7,7 +7,7 @@ class Compass {
     this.isPlaying = false;
   }
 
-  print() {
+  show() {
     if (!this.isPlaying) {
       return;
     }

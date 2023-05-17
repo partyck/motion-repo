@@ -12,7 +12,7 @@ class Drums {
         this._kicks = new Array(compass.limit/KICK_SEGMENTATION);
     }
 
-    print() {
+    show() {
         if (!compass.isPlaying) {
             return;
         }
