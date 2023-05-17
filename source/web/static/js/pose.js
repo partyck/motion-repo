@@ -8,22 +8,19 @@ class PoseCapturer {
             new BodyParticle(),
             new BodyParticle()];
         
-        this.video = createCapture(VIDEO);
-        this.video.hide();
-        this.poseNet = ml5.poseNet(this.video, () => {
-            console.log('model ready');
-        });
-        this.poseNet.on('pose', _gotPoses);
-        console.log(`video width : ${this.video.width}; height : ${this.video.height}`); //
+        this._getContinuityCamera()
     }
 
     show() {
+        if (! this.video) {
+            return;
+        }
+
         push();
         scale(-1, 1);
         let xS =  -1 * width;
         let xE = width;
         // image(this.video, xS, 0, xE, height);
-        // image(this.video, xS, 0, this.video.width, this.video.height);
         pop();
 
         this.particles.forEach((particle) => {
@@ -31,28 +28,41 @@ class PoseCapturer {
         });
     }
 
-    _getContinuityCamera() {
-        navigator.mediaDevices
+    async _getContinuityCamera() {
+        await navigator.mediaDevices
             .enumerateDevices()
             .then((devices) => {
                 console.log('input devices :');
-                devices.forEach((device) => {
+                let videoConfig = VIDEO;
+                devices.some((device) => {
                     console.log(`${device.kind}: ${device.label}`);
                     if (device.kind.includes('videoinput') && device.label.includes('iPhone')) {
-                        return {
+                        console.log(`${device.label} found!`);
+                        videoConfig = {
                             audio: false,
                             video: {
                                 deviceId: device.deviceId
                             }
                         };
+                        return true;
                     }
                 });
-                return VIDEO;
+                _initVideo(videoConfig);
             })
             .catch((err) => {
                 console.error(`${err.name}: ${err.message}`);
             });
     }
+}
+
+function _initVideo(vid) {
+    pose.video = createCapture(vid, (stream) => {
+        let poseNet = ml5.poseNet(pose.video, () => {
+            console.log('model ready');
+        });
+        poseNet.on('pose', _gotPoses);
+    });
+    pose.video.hide();
 }
 
 

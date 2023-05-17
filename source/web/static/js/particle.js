@@ -13,13 +13,22 @@ class BodyParticle {
 
     show() {
         noStroke();
-        this._radialGradient(
-            this.possition.x, this.possition.y, 0,//Start pX, pY, start circle radius
-            this.possition.x, this.possition.y, 200,//End pX, pY, End circle radius
-            color(0, 0, 244, round(this.velocity.mag() * 20)), //Start color
-            color(0, 0, 0, 0) //End color
-        );
-        ellipse(this.possition.x, this.possition.y, 500);
+        let a = round(this.velocity.mag() * 20)
+
+        for (let index = 0; index <= compass.iteration; index++) {
+            let r = index == 2 ? 255 : 0;
+            let g = index == 1 ? 255 : 0;
+            let b = index == 0 ? 255 : 0;
+
+            this._radialGradient(
+                this.possition.x, this.possition.y, index * 100,//Start pX, pY, start circle radius
+                this.possition.x, this.possition.y, 100 + index * 100,//End pX, pY, End circle radius
+                color(r, g, b, a), //Start color
+                color(0, 0, 0, 0) //End color
+            );
+            ellipse(this.possition.x, this.possition.y, 200 + index * 200);
+        }
+
     }
 
 
