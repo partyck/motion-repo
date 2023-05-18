@@ -17,15 +17,16 @@ class PoseCapturer {
         }
 
         let h = width * this.video.height / this.video.width;
+        let h0 = (h - height ) / 2 * -1;
         
         // camera mirrored
         push();
         scale(-1, 1);
-        // image(this.video, -1 * width, 0, width, h);
+        // image(this.video, -1 * width, h0, width, h);
         pop();
 
         // camera unmirrored
-        image(this.video, 0, 0, width, h);
+        image(this.video, 0, h0, width, h);
 
         this.particles.forEach((particle) => {
             particle.show();
