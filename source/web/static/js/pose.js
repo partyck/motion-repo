@@ -8,7 +8,7 @@ class PoseCapturer {
             new BodyParticle(),
             new BodyParticle()];
         
-        this._getContinuityCamera()
+        this._getContinuityCamera();
     }
 
     show() {
@@ -16,12 +16,16 @@ class PoseCapturer {
             return;
         }
 
+        let h = width * this.video.height / this.video.width;
+        
+        // camera mirrored
         push();
         scale(-1, 1);
-        let xS =  -1 * width;
-        let xE = width;
-        // image(this.video, xS, 0, xE, height);
+        // image(this.video, -1 * width, 0, width, h);
         pop();
+
+        // camera unmirrored
+        image(this.video, 0, 0, width, h);
 
         this.particles.forEach((particle) => {
             particle.show();

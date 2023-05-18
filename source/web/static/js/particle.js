@@ -5,7 +5,8 @@ const maxForce = 0.9;
 class BodyParticle {
 
     constructor() {
-        this.possition = createVector(windowWidth/2, windowHeight/2);
+        this.oldPos = { 'x': windowWidth/2, 'y': windowHeight/2 };
+        this.possition = createVector(this.oldPos.x, this.oldPos.y);
         this.velocity = createVector();
         this.acceleration = createVector();
     }
@@ -13,22 +14,22 @@ class BodyParticle {
 
     show() {
         noStroke();
-        let a = round(this.velocity.mag() * 20)
+        let a = round(this.velocity.mag() * 30)
 
-        for (let index = 0; index <= compass.iteration; index++) {
-            let r = index == 2 ? 255 : 0;
-            let g = index == 1 ? 255 : 0;
-            let b = index == 0 ? 255 : 0;
+        for (let i = 0; i <= compass.iteration; i++) {
+            let r = i == 2 ? 255 : 0;
+            let g = i == 1 ? 255 : 0;
+            let b = i == 0 ? 255 : 0;
 
             this._radialGradient(
-                this.possition.x, this.possition.y, index * 100,//Start pX, pY, start circle radius
-                this.possition.x, this.possition.y, 100 + index * 100,//End pX, pY, End circle radius
+                this.possition.x, this.possition.y, i * 100,//Start pX, pY, start circle radius
+                this.possition.x, this.possition.y, 200 + i * 100,//End pX, pY, End circle radius
                 color(r, g, b, a), //Start color
                 color(0, 0, 0, 0) //End color
             );
-            ellipse(this.possition.x, this.possition.y, 200 + index * 200);
+            ellipse(this.possition.x, this.possition.y, 300 + i * 200);
         }
-
+        this._appyforce(createVector(this.oldPos.x, this.oldPos.y));
     }
 
 
@@ -37,8 +38,14 @@ class BodyParticle {
             return;
         }
 
-        let x = map(map(newCoordinates.x, 0, pose.video.width, 1, 0), 0, 1, 0, width);
+        // camera mirrored
+        // let x = map(map(newCoordinates.x, 0, pose.video.width, 1, 0), 0, 1, 0, width);
+        
+        // camera unmirrored
+        let x = map(map(newCoordinates.x, 0, pose.video.width, 0, 1), 0, 1, 0, width);
+        
         let y = map(map(newCoordinates.y, 0, pose.video.height, 0, 1), 0, 1, 0, height);
+        this.oldPos = { 'x': x, 'y': y };
         this._appyforce(createVector(x, y));
     }
 
