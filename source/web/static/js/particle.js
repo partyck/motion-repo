@@ -9,6 +9,7 @@ class BodyParticle {
         this.possition = createVector(this.oldPos.x, this.oldPos.y);
         this.velocity = createVector();
         this.acceleration = createVector();
+        this.oldParticles = [[]];
     }
 
 
@@ -16,20 +17,45 @@ class BodyParticle {
         noStroke();
         let a = round(this.velocity.mag() * 30)
 
-        for (let i = 0; i <= compass.iteration; i++) {
-            let r = i == 2 ? 255 : 0;
-            let g = i == 1 ? 255 : 0;
-            let b = i == 0 ? 255 : 0;
+        this._showParticle(this.possition.x, this.possition.y, a);
+        this.oldParticles.forEach(pastIteration => {
+            let oldParticle = pastIteration[compass.counter];
+            if (oldParticle) {
+                this._showParticle(oldParticle.x, oldParticle.y, oldParticle.a);
+            }
+        });
 
-            this._radialGradient(
-                this.possition.x, this.possition.y, i * 100,//Start pX, pY, start circle radius
-                this.possition.x, this.possition.y, 200 + i * 100,//End pX, pY, End circle radius
-                color(r, g, b, a), //Start color
-                color(0, 0, 0, 0) //End color
-            );
-            ellipse(this.possition.x, this.possition.y, 300 + i * 200);
-        }
+        this._storeParticle(this.possition.x, this.possition.y, a)
+
         this._appyforce(createVector(this.oldPos.x, this.oldPos.y));
+    }
+
+    _showParticle(x, y, a) {
+        if (! a > 0) {
+            return;
+        }
+        
+        let r = compass.iteration == 2 ? 255 : 0;
+        let g = compass.iteration == 1 ? 255 : 0;
+        let b = compass.iteration == 0 ? 255 : 0;
+        
+        this._radialGradient(
+            x, y, 0,//Start pX, pY, start circle radius
+            x, y, 400 * compass.getCounter01(),//End pX, pY, End circle radius
+            color(r, g, b, a), //Start color
+            color(0, 0, 0, 0) //End color
+        );
+        ellipse(x, y, 800 * compass.getCounter01());
+    }
+
+    
+    _storeParticle(x, y, a) {
+        if (this.oldParticles.length <= compass.iteration) {
+            this.oldParticles.push([]);
+        }
+        if (this.oldParticles[compass.iteration].length <= compass.counter) {
+            this.oldParticles[compass.iteration].push({ x, y, a});
+        }
     }
 
 

@@ -31,7 +31,7 @@ class Synther {
     if (this.isPaying) {
       freq = map(this.alpha, 0, 360, 100, 1000);
       amp = map(this.beta, -180, 180, 0, 0.5);
-      dist = map(compass.contador, 0, compass.limit, 0, 0.1 + (compass.iteration * 0.1))
+      dist = map(compass.counter, 0, compass.limit, 0, 0.1 + (compass.iteration * 0.1))
 
       this.distortion.set(dist);
       this.oscillator.freq(freq);
@@ -66,7 +66,7 @@ class Synther {
     text('alpha     : ' + this.alpha, 50, _yPossition += 40);
     text('beta      : ' + this.beta, 50, _yPossition += 40);
     text('gamma     : ' + this.gamma, 50, _yPossition += 40);
-    text('contador  : ' + this.compass.contador, 50, _yPossition += 40);
+    text('counter  : ' + this.compass.counter, 50, _yPossition += 40);
     text('iteration : ' + this.compass.iteration, 50, _yPossition += 40);
   }
 }

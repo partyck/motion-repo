@@ -16,6 +16,11 @@ class PoseCapturer {
             return;
         }
 
+        this._showCamera();
+        this._showParticles();
+    }
+
+    _showCamera() {
         let h = width * this.video.height / this.video.width;
         let h0 = (h - height ) / 2 * -1;
         
@@ -27,6 +32,9 @@ class PoseCapturer {
 
         // camera unmirrored
         image(this.video, 0, h0, width, h);
+    }
+
+    _showParticles() {
 
         this.particles.forEach((particle) => {
             particle.show();
@@ -41,7 +49,7 @@ class PoseCapturer {
                 let videoConfig = VIDEO;
                 devices.some((device) => {
                     console.log(`${device.kind}: ${device.label}`);
-                    if (device.kind.includes('videoinput') && device.label.includes('iPhone')) {
+                    if (device.kind.includes('videoinput') && device.label.includes('OBS')) {
                         console.log(`${device.label} found!`);
                         videoConfig = {
                             audio: false,

@@ -24,7 +24,7 @@ class Drums {
                 this._kickCount ++;
             }
             
-            let index = compass.contador / (compass.limit/KICK_SEGMENTATION);
+            let index = compass.counter / (compass.limit/KICK_SEGMENTATION);
             if (this._kicks[index]) {
                 console.log('kick at : '+ index);
                 this._kick.pan(random(-1, 1));
@@ -34,6 +34,6 @@ class Drums {
     }
 
     toKick() {
-        return (compass.contador % (compass.limit / KICK_SEGMENTATION)) === 0; 
+        return (compass.counter % (compass.limit / KICK_SEGMENTATION)) === 0; 
     }
 }

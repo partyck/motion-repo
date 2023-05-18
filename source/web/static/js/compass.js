@@ -2,9 +2,13 @@ class Compass {
   
   constructor() {
     this.limit = pow(2, 10);
-    this.contador = 0;
+    this.counter = 0;
     this.iteration = 0;
     this.isPlaying = false;
+  }
+
+  getCounter01() {
+    return map(this.counter, 0, this.limit, 0, 1);
   }
 
   show() {
@@ -12,13 +16,13 @@ class Compass {
       return;
     }
 
-    if (this.contador === this.limit) {
+    this.counter++;
+
+    if (this.counter === this.limit) {
       console.log('iteration : '+this.iteration);
       this.iteration++;
-      this.contador = 0;
+      this.counter = 0;
     }
-
-    this.contador++;
   }
 
   toPlay() {
