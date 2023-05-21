@@ -1,6 +1,8 @@
 class Synther {
   
   constructor(compass) {
+    textFont('Courier New', 20);
+
     this.compass = compass;
 
     // Create an oscillator and start it
@@ -29,16 +31,16 @@ class Synther {
     let dist = 0;
 
     if (this.isPaying) {
-      freq = map(this.alpha, 0, 360, 100, 1000);
-      amp = map(this.beta, -180, 180, 0, 0.5);
-      dist = map(compass.counter, 0, compass.limit, 0, 0.1 + (compass.iteration * 0.1))
+      freq = map(this.beta, -180, 180, 100, 1000);
+      amp = this._getAmp();
+      dist = this._getDistortion();
 
-      this.distortion.set(dist);
+      this.distortion.set(this._getDistortion());
       this.oscillator.freq(freq);
       this.oscillator.amp(amp);
     }
     
-    this._drawText(freq, amp)
+    this._drawText(freq, amp, dist)
   }
     
   toPlay() {
@@ -57,16 +59,27 @@ class Synther {
     this.gamma = newAnges.gamma;
   }
 
-  _drawText(freq, amp) {
+  _getDistortion() { // [0. 1]
+    let dist0 = Math.pow(compass.counter / compass.limit, 2) * (0.1 + (compass.iteration * 0.1));
+    return dist0;
+  }
+
+  _getAmp() { // [0, 0.5]
+    let amp0 = Math.pow(compass.counter / compass.limit, 2) * 0.5;
+    return amp0;
+  }
+
+  _drawText(freq, amp, dist) {
     strokeWeight(1);
     fill(200);
     let _yPossition = 40;
-    text('freq      : ' + freq.toFixed(3) + ' Hz', 50, _yPossition);
-    text('amp       : ' + amp.toFixed(3), 50, _yPossition += 40);
-    text('alpha     : ' + this.alpha, 50, _yPossition += 40);
-    text('beta      : ' + this.beta, 50, _yPossition += 40);
-    text('gamma     : ' + this.gamma, 50, _yPossition += 40);
-    text('counter  : ' + this.compass.counter, 50, _yPossition += 40);
-    text('iteration : ' + this.compass.iteration, 50, _yPossition += 40);
+    text('freq       : ' + freq.toFixed(3) + ' Hz', 50, _yPossition);
+    text('amp        : ' + amp.toFixed(3), 50, _yPossition += 40);
+    text('distortion : ' + dist.toFixed(3), 50, _yPossition += 40);
+    text('alpha      : ' + this.alpha, 50, _yPossition += 40);
+    text('beta       : ' + this.beta, 50, _yPossition += 40);
+    text('gamma      : ' + this.gamma, 50, _yPossition += 40);
+    text('counter    : ' + this.compass.counter, 50, _yPossition += 40);
+    text('iteration  : ' + this.compass.iteration, 50, _yPossition += 40);
   }
 }
