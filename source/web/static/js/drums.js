@@ -9,6 +9,7 @@ class Drums {
         this._kick.setVolume(1);
         
         this._kickCount = 0;
+        this._kickIncrement = 4;
         this._kicks = new Array(compass.limit/KICK_SEGMENTATION);
     }
 
@@ -18,7 +19,7 @@ class Drums {
         }
         
         if (this.toKick()) {
-            if (compass.iteration > this._kickCount) {
+            if (this._kickIncrement + (compass.iteration * this._kickIncrement) > this._kickCount) {
                 let kickIndex = round(random(0, KICK_SEGMENTATION));
                 this._kicks[kickIndex] = true;
                 this._kickCount ++;
@@ -26,7 +27,6 @@ class Drums {
             
             let index = compass.counter / (compass.limit/KICK_SEGMENTATION);
             if (this._kicks[index]) {
-                console.log('kick at : '+ index);
                 this._kick.pan(random(-1, 1));
                 this._kick.play();
             }
