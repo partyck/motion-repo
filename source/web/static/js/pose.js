@@ -8,6 +8,7 @@ class PoseCapturer {
             new BodyParticle(),
             new BodyParticle()];
         
+        this._kick = false;
         this._getContinuityCamera();
     }
 
@@ -16,8 +17,18 @@ class PoseCapturer {
             return;
         }
 
-        this._showCamera();
+        if (this._kick) {
+            background(100);
+            this._kick = false;
+        }
+        else {
+            // this._showCamera();
+        }
         this._showParticles();
+    }
+
+    toKick() {
+        this._kick = true;
     }
 
     _showCamera() {
@@ -50,6 +61,7 @@ class PoseCapturer {
                 devices.some((device) => {
                     console.log(`${device.kind}: ${device.label}`);
                     if (device.kind.includes('videoinput') && device.label.includes('OBS')) {
+                    // if (device.kind.includes('videoinput') && device.label.includes('FaceTime')) {
                         console.log(`${device.label} found!`);
                         videoConfig = {
                             audio: false,

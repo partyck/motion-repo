@@ -5,6 +5,7 @@ const maxForce = 0.9;
 class BodyParticle {
 
     constructor() {
+        colorMode(HSB, 360, 100, 100, 100);
         this.oldPos = { 'x': windowWidth/2, 'y': windowHeight/2 };
         this.possition = createVector(this.oldPos.x, this.oldPos.y);
         this.velocity = createVector();
@@ -17,11 +18,19 @@ class BodyParticle {
         noStroke();
         let a = round(this.velocity.mag() * 30)
 
-        this._showParticle(this.possition.x, this.possition.y, a);
-        this.oldParticles.forEach(pastIteration => {
+        if (a > 0) {
+            let hue = map(compass.iteration, 0, 5, 0, 360);
+            let colour = color(hue, 100, 100, a);
+            this._showParticle(this.possition.x, this.possition.y, colour);
+        }
+
+        this.oldParticles.forEach((pastIteration, index) => {
             let oldParticle = pastIteration[compass.counter];
-            if (oldParticle) {
-                this._showParticle(oldParticle.x, oldParticle.y, oldParticle.a);
+            if (oldParticle && oldParticle.a > 0) {
+                let hue = map(index, 0, this.oldParticles.length, 0, 360);
+                let sat = compass.getCounter01() * 100;
+                let colour = color(hue, sat, 100, oldParticle.a);
+                this._showParticle(oldParticle.x, oldParticle.y, colour);
             }
         });
 
@@ -30,19 +39,11 @@ class BodyParticle {
         this._appyforce(createVector(this.oldPos.x, this.oldPos.y));
     }
 
-    _showParticle(x, y, a) {
-        if (! a > 0) {
-            return;
-        }
-        
-        let r = compass.iteration == 2 ? 255 : 0;
-        let g = compass.iteration == 1 ? 255 : 0;
-        let b = compass.iteration == 0 ? 255 : 0;
-        
+    _showParticle(x, y, colour) {
         this._radialGradient(
             x, y, 0,//Start pX, pY, start circle radius
             x, y, 400 * compass.getCounter01(),//End pX, pY, End circle radius
-            color(r, g, b, a), //Start color
+            colour, //Start color
             color(0, 0, 0, 0) //End color
         );
         ellipse(x, y, 800 * compass.getCounter01());

@@ -30,6 +30,11 @@ function draw() {
     pose.show();
 }
 
+function kickAll() {
+    drums.toKick();
+    pose.toKick();
+}
+
 function tooglePlay() {
     if (isPlaying) {
         synth.toStop();

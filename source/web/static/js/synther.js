@@ -40,7 +40,7 @@ class Synther {
       this.oscillator.amp(amp);
     }
     
-    this._drawText(freq, amp, dist)
+    // this._drawText(freq, amp, dist)
   }
     
   toPlay() {

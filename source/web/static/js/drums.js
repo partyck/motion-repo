@@ -7,33 +7,12 @@ class Drums {
         soundFormats('wav');
         this._kick = loadSound('assets/kick_1.wav');
         this._kick.setVolume(1);
-        
-        this._kickCount = 0;
-        this._kickIncrement = 4;
-        this._kicks = new Array(compass.limit/KICK_SEGMENTATION);
     }
 
-    show() {
-        if (!compass.isPlaying) {
-            return;
-        }
-        
-        if (this.toKick()) {
-            if (this._kickIncrement + (compass.iteration * this._kickIncrement) > this._kickCount) {
-                let kickIndex = round(random(0, KICK_SEGMENTATION));
-                this._kicks[kickIndex] = true;
-                this._kickCount ++;
-            }
-            
-            let index = compass.counter / (compass.limit/KICK_SEGMENTATION);
-            if (this._kicks[index]) {
-                this._kick.pan(random(-1, 1));
-                this._kick.play();
-            }
-        }
-    }
+    show() {}
 
     toKick() {
-        return (compass.counter % (compass.limit / KICK_SEGMENTATION)) === 0; 
+        this._kick.pan(random(-1, 1));
+        this._kick.play();
     }
 }
