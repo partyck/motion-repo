@@ -6,9 +6,9 @@ class Compass {
     this.iteration = 0;
     this.isPlaying = false;
     
-    this._kickSegmentation = Math.pow(2, 6);
+    this._kickSegmentation = Math.pow(2, 8);
     this._kickCount = 0;
-    this._kickIncrement = 2;
+    this._kickIncrement = 3;
     this._kicks = new Array(this.limit/this._kickSegmentation);
   }
 
@@ -24,8 +24,11 @@ class Compass {
     this.counter++;
 
     if (this.counter === this.limit) {
-      console.log('iteration : '+this.iteration);
+      console.log(`iteration : ${this.iteration}, kicks : ${this._kickCount}`);
       this.iteration++;
+      if (this.iteration == 10) {
+        tooglePlay();
+      }
       this.counter = 0;
     }
 

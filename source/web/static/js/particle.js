@@ -10,7 +10,7 @@ class BodyParticle {
         this.possition = createVector(this.oldPos.x, this.oldPos.y);
         this.velocity = createVector();
         this.acceleration = createVector();
-        this.oldParticles = [[]];
+        this.oldParticles = [];
     }
 
 
@@ -19,17 +19,15 @@ class BodyParticle {
         let a = round(this.velocity.mag() * 30)
 
         if (a > 0) {
-            let hue = map(compass.iteration, 0, 5, 0, 360);
-            let colour = color(hue, 100, 100, a);
+            let colour = color(this._getCurrentHue(), 100, 100, a);
             this._showParticle(this.possition.x, this.possition.y, colour);
         }
 
         this.oldParticles.forEach((pastIteration, index) => {
-            let oldParticle = pastIteration[compass.counter];
+            let oldParticle = pastIteration.positions[compass.counter];
             if (oldParticle && oldParticle.a > 0) {
-                let hue = map(index, 0, this.oldParticles.length, 0, 360);
                 let sat = compass.getCounter01() * 100;
-                let colour = color(hue, sat, 100, oldParticle.a);
+                let colour = color(pastIteration.colour, sat, 100, oldParticle.a);
                 this._showParticle(oldParticle.x, oldParticle.y, colour);
             }
         });
@@ -40,22 +38,23 @@ class BodyParticle {
     }
 
     _showParticle(x, y, colour) {
+        let iterationAddition = compass.iteration * 10;
         this._radialGradient(
             x, y, 0,//Start pX, pY, start circle radius
-            x, y, 400 * compass.getCounter01(),//End pX, pY, End circle radius
+            x, y, (200 + iterationAddition) * compass.getCounter01(),//End pX, pY, End circle radius
             colour, //Start color
             color(0, 0, 0, 0) //End color
         );
-        ellipse(x, y, 800 * compass.getCounter01());
+        ellipse(x, y, (400 + iterationAddition) * compass.getCounter01());
     }
 
     
     _storeParticle(x, y, a) {
         if (this.oldParticles.length <= compass.iteration) {
-            this.oldParticles.push([]);
+            this.oldParticles.push({colour: this._getCurrentHue(), positions: []});
         }
-        if (this.oldParticles[compass.iteration].length <= compass.counter) {
-            this.oldParticles[compass.iteration].push({ x, y, a});
+        if (this.oldParticles[compass.iteration].positions.length <= compass.counter) {
+            this.oldParticles[compass.iteration].positions.push({ x, y, a});
         }
     }
 
@@ -107,5 +106,13 @@ class BodyParticle {
         gradient.addColorStop(1, colorE);
 
         drawingContext.fillStyle = gradient;
+    }
+
+    _getCurrentHue() {
+        let hue = map(compass.iteration, 0, 10, 0, 360) + 240;
+        if (hue > 360) {
+            hue = hue - 360;
+        }
+        return hue
     }
 }
