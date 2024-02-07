@@ -60,9 +60,9 @@ class PoseCapturer {
                 let videoConfig = VIDEO;
                 devices.some((device) => {
                     console.log(`${device.kind}: ${device.label}`);
-                    if (device.kind.includes('videoinput') && device.label.includes('OBS')) {
+                    // if (device.kind.includes('videoinput') && device.label.includes('OBS')) {
                     if (device.kind.includes('videoinput') && device.label.includes('FaceTime')) {
-                    if (device.kind.includes('videoinput') && device.label.includes('iPhone')) {
+                    // if (device.kind.includes('videoinput') && device.label.includes('iPhone')) {
                         console.log(`${device.label} found!`);
                         videoConfig = {
                             audio: false,
