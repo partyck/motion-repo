@@ -22,7 +22,7 @@ class PoseCapturer {
             this._kick = false;
         }
         else {
-            // this._showCamera();
+            this._showCamera();
         }
         this._showParticles();
     }
@@ -38,11 +38,11 @@ class PoseCapturer {
         // camera mirrored
         push();
         scale(-1, 1);
-        // image(this.video, -1 * width, h0, width, h);
+        image(this.video, -1 * width, h0, width, h);
         pop();
 
         // camera unmirrored
-        image(this.video, 0, h0, width, h);
+        // image(this.video, 0, h0, width, h);
     }
 
     _showParticles() {
@@ -61,7 +61,8 @@ class PoseCapturer {
                 devices.some((device) => {
                     console.log(`${device.kind}: ${device.label}`);
                     if (device.kind.includes('videoinput') && device.label.includes('OBS')) {
-                    // if (device.kind.includes('videoinput') && device.label.includes('FaceTime')) {
+                    if (device.kind.includes('videoinput') && device.label.includes('FaceTime')) {
+                    if (device.kind.includes('videoinput') && device.label.includes('iPhone')) {
                         console.log(`${device.label} found!`);
                         videoConfig = {
                             audio: false,

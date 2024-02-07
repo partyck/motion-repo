@@ -21,6 +21,19 @@ def event_motion(data):
     print('motion: ' + str(data))
     socketio.emit('move', data)
 
+@socketio.on('td')
+def event_td(data):
+    print('td: ' + str(data))
+
+@socketio.on('connect')
+def test_connect(auth):
+    print('Client connected')
+    socketio.emit('my response', {'data': 'Connected'})
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+
 # ROUTES
 @app.route('/')
 def route_home():

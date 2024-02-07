@@ -65,10 +65,10 @@ class BodyParticle {
         }
 
         // camera mirrored
-        // let x = map(map(newCoordinates.x, 0, pose.video.width, 1, 0), 0, 1, 0, width);
+        let x = map(map(newCoordinates.x, 0, pose.video.width, 1, 0), 0, 1, 0, width);
         
         // camera unmirrored
-        let x = map(map(newCoordinates.x, 0, pose.video.width, 0, 1), 0, 1, 0, width);
+        // let x = map(map(newCoordinates.x, 0, pose.video.width, 0, 1), 0, 1, 0, width);
         
         let y = map(map(newCoordinates.y, 0, pose.video.height, 0, 1), 0, 1, 0, height);
         this.oldPos = { 'x': x, 'y': y };

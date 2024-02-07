@@ -13,8 +13,8 @@ function setup() {
   createCanvas(displayWidth, displayHeight);
   bg_color = color(200)
 
-  // isPermissionGranted = (window.DeviceMotionEvent ? true : false);
-  isPermissionGranted = false;
+  isPermissionGranted = (window.DeviceMotionEvent ? true : false);
+  // isPermissionGranted = false;
   
   // socket
   socket = io()
